@@ -4,6 +4,34 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Fimfex Story Exchange</title>
+    <script>
+        function testconsole() {
+            console.log('test!')
+        }
+        async function submit_exchange() {
+            const ex_title = document.getElementById('ex_title').value;
+            // console.log('test!');
+            try {
+                const res = await fetch(`http://127.0.0.1:7669/create-exchange?title=${ex_title}`,{
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    }
+                }
+                );
+                const data = await res.json();
+
+                if (!res.ok) {
+                    console.log('Result is not ok');
+                    return;
+                }
+
+                console.log(data);
+            } catch (error) {
+                console.log(error);
+            }
+        }
+    </script>
 </head>
 <body>
     <h1>Welcome to Fimfex!</h1>
@@ -15,13 +43,11 @@
 
     <div id="result" class="infobox invisible"></div>
 
-    <form action=""></form>
-        <div>
-            <label for="ex_title">Title:</label>
-            <input type="text" id="ex_title" name="ex_title">
-            <input type="submit" value="Create">
-        </div>
-    </form>
+    <div id="new_exchange">
+        <label for="ex_title">Title:</label>
+        <input type="text" id="ex_title" name="ex_title" minlength="3" maxlength="30">
+        <button id="create_new_exchange" onclick="submit_exchange()">Create</button>
+    </div>
 
 </body>
 <footer>
