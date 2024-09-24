@@ -4,44 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Fimfex Story Exchange</title>
-    <script>
-        function testconsole() {
-            console.log('test!')
-        }
-        async function submit_exchange() {
-            const ex_title = document.getElementById('ex_title').value;
-            // console.log('test!');
-            try {
-                const res = await fetch(`http://127.0.0.1:7669/create-exchange?title=${ex_title}`,{
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded'
-                    }
-                }
-                );
-                const data = await res.json();
-
-                if (!res.ok) {
-                    console.log('Result is not ok');
-                    return;
-                }
-
-                console.log(data);
-            } catch (error) {
-                console.log(error);
-            }
-        }
-    </script>
+    <script type="text/javascript" src="scripts/index_scripts.js"></script>
 </head>
 <body>
     <h1>Welcome to Fimfex!</h1>
     <p>A place to exchange stories.</p>
     <p>Create an exchange below:</p>
-    <br>
 
-    <div id="warning" class="infobox invisible"></div>
-
-    <div id="result" class="infobox invisible"></div>
+    <div id="warningbox" class="infobox invisible"></div>
+    <div id="resultbox" class="infobox invisible"></div>
 
     <div id="new_exchange">
         <label for="ex_title">Title:</label>
