@@ -39,6 +39,78 @@ async function get_exchange() {
 }
 
 async function submit_stories() {
+    const id = new URL(window.location.href).searchParams.get('id');
+    const viewbox = document.getElementById('viewbox');
+    const warningbox = document.getElementById('warningbox');
+    const resultbox = document.getElementById('resultbox');
+
+    try {
+        const submission_list = document.getElementById("submission_list");
+        const sub_count = 5;
+        const username = document.getElementById("username").value;
+
+        var obj = {};
+        obj['name'] = username;
+        obj['stories'] = [];
+
+        for(var i = 0; i < sub_count; i++) {
+            const item = submission_list.children[i];
+            const arr = [];
+            [...item.getElementsByTagName('input')].forEach(element => {
+                if(element.value != '') {
+                    arr.push(element.value);
+                }
+            });
+
+            if(arr.length > 0){
+                obj.stories.push(arr);
+            }
+        }
+
+        console.log(`POSTing this: ${JSON.stringify(obj)}`)
+
+
+        const res = await fetch(`http://127.0.0.1:7669/add-stories/${id}`,{
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(obj)
+                
+            }
+        );
+        const data = res;
+
+        if (!res.ok) {
+            viewbox.innerHTML = ''
+            resultbox.innerHTML = ''
+            resultbox.classList.add('invisible')
+
+            warningbox.innerHTML = `
+                <p>The server returned an error:</p>
+                <p><strong>Error ${res.status}:</strong> ${res.body}</p> 
+            `
+            warningbox.classList.remove('invisible')
+            return;
+        }
+        else {
+            console.log(data);
+            
+            resultbox.innerHTML = `
+                <p>Your ${obj.stories.length} submissions have been added.</p>
+                <p>Check back later (according to the exchange's owner) for the voting stage.</p>
+            `
+            resultbox.classList.add('invisible')
+        }
+    } catch (error) {
+        viewbox.innerHTML = ''
+        resultbox.innerHTML = ''
+        resultbox.classList.add('invisible')
+        
+        warningbox.innerHTML = '<p>There was an uncaught error. Consult the console, and notify site authors.</p>'
+        warningbox.classList.remove('invisible')
+        console.log(error);
+    }
 }
 
 function build_view(data) {
