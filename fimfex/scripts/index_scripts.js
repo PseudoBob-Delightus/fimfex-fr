@@ -3,7 +3,7 @@ async function submit_exchange() {
     const warningbox = document.getElementById('warningbox');
     const resultbox = document.getElementById('resultbox');
     try {
-        const res = await fetch(`http://127.0.0.1:7669/create-exchange?title=${ex_title}`,{
+        const res = await fetch(`http://fimfex.ddns.net:7669/create-exchange?title=${ex_title}`,{
             method: 'POST',
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded'

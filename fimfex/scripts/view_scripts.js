@@ -5,7 +5,7 @@ async function get_exchange() {
     const resultbox = document.getElementById('resultbox');
 
     try {
-        const res = await fetch(`http://127.0.0.1:7669/get-exchange/${id}`,{
+        const res = await fetch(`http://fimfex.ddns.net:7669/get-exchange/${id}`,{
                 method: 'GET'
             }
         );
@@ -70,7 +70,7 @@ async function submit_stories() {
         console.log(`POSTing this: ${JSON.stringify(obj)}`)
 
 
-        const res = await fetch(`http://127.0.0.1:7669/add-stories/${id}`,{
+        const res = await fetch(`http://fimfex.ddns.net:7669/add-stories/${id}`,{
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
