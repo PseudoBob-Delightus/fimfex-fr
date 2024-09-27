@@ -251,6 +251,7 @@ function build_submission_view(data) {
                 </li>
             </ul>
 
+
             <br>
 
             <button id="submit_stories" onclick="submit_stories()">Submit Stories</button>
