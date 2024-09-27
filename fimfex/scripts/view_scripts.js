@@ -164,7 +164,7 @@ function build_submission_view(data) {
                     <input type="text" id="link5-1" name="link5-1">
                     <input type="text" id="link5-2" name="link5-2">
                 </li>
-            </li>
+            </ul>
 
             <br>
 
