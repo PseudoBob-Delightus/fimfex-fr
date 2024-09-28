@@ -299,7 +299,6 @@ function draw_voting_submissions(data) {
     
     var string = 
         `<p>Voting as: <span id=username>${username}</span></p>
-        <br>
         <ul>`
 
     data.submissions.forEach(submission => {
@@ -308,7 +307,7 @@ function draw_voting_submissions(data) {
             <p>`;
         submission.stories.forEach(story => {
             string += 
-                `${story}, `;
+                `<span class='vote_story'>${story}</span>, `;
         });
         string += 
             `</p>
