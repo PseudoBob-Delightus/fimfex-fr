@@ -275,7 +275,7 @@ function build_view(data) {
     switch (data.stage) {
         case 'Submission': build_submission_view(data); break;
         case 'Voting': build_voting_view(data); break;
-        case 'Selections': build_selections_view(data); break;
+        case 'Selection': build_selections_view(data); break;
         case 'Frozen': build_frozen_view(data); break;
         default: 
             throw new Error(`Unexpected stage when loading view: '${data.stage}'`)
