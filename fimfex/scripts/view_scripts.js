@@ -486,6 +486,32 @@ function build_selections_view(data) {
     `
 }
 
+function draw_results(data) {
+    const box = document.getElementById("resultsbox");
+
+    var string = 
+        `<h2>Results</h2>
+        <ul id="resultslist">`;
+
+    Object.keys(data.results).forEach(user => {
+        string += 
+            `<li><p>${user} is assigned:</p>
+            <ul>`;
+        data.results[user].forEach(submission => {
+            string += `<li><p>`;
+            submission.stories.forEach(story => {
+                string += `${story}, `;
+            });
+            string += `</p></li>`
+        });
+        string += `</ul></li>`
+    });
+
+    string += `</ul>`
+
+    box.innerHTML = string;
+}
+
 function build_frozen_view(data) {
     const viewbox = document.getElementById('viewbox');
     viewbox.innerHTML = `
