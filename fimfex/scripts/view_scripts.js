@@ -424,5 +424,12 @@ function build_selections_view(data) {
 }
 
 function build_frozen_view(data) {
-
+    const viewbox = document.getElementById('viewbox');
+    viewbox.innerHTML = `
+        <h1>${data.title}</h1>
+        <p>This exchange has concluded.</p>
+        <p>Results below:</p>
+        <div id="resultsbox">
+        </div>
+    `
 }
