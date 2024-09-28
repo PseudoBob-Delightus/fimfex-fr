@@ -360,8 +360,8 @@ function build_voting_view(data) {
             <label for="passphrase">passphrase:</label>
             <input type="password" id="passphrase" name="passphrase">
             <br>
-            <button id="goto_submission" onclick="transition('Voting')">Go to Submission stage</button>
-            <button id="goto_selection" onclick="transition('Voting')">Go to Selection stage</button>
+            <button id="goto_submission" onclick="transition('Submission')">Go to Submission stage</button>
+            <button id="goto_selection" onclick="transition('Selections')">Go to Results stage</button>
         </div>
     `
 }
