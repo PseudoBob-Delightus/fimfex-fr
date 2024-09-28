@@ -554,6 +554,7 @@ function build_selections_view(data) {
     viewbox.innerHTML = `
         <h1>${data.title}</h1>
         <p>This exchange is ready to generate results.</p>
+        <p>Any results shown below are not public.</p>
         <p>You can experiment with different settings before publishing.</p>
         <div id="resultsbox"></div>
         <div>
@@ -569,12 +570,13 @@ function build_selections_view(data) {
             <label for="passphrase">passphrase:</label>
             <input type="password" id="passphrase" name="passphrase">
             <br>
-            <button id="generate_results" onclick="generate_results()">Generate Results</button>
+            <button id="view_results" onclick="get_results()">View Current Results</button>
+            <button id="generate_results" onclick="generate_results()">Generate New Results</button>
             <br>
             <button id="goto_voting" onclick="transition('Voting')">Go to Voting stage</button>
             <button id="goto_frozen" onclick="transition('Frozen')">Publish (this is PERMANENT!)</button>
         </div>
-    `
+    `;
 }
 
 function draw_results(data) {
