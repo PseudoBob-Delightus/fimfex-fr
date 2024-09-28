@@ -220,6 +220,97 @@ async function submit_votes() {
     }    
 }
 
+async function generate_results() {
+    const warningbox = document.getElementById('warningbox');
+    const resultbox = document.getElementById('resultbox');
+
+    const id = new URL(window.location.href).searchParams.get('id');
+    const passphrase = document.getElementById('passphrase').value;
+    const user_max_e = document.getElementById('user_max');
+    const a_factor_e = document.getElementById('a_factor');
+
+    var user_max = 2;
+    var a_factor = 0.5;
+
+    if(user_max_e.value.trim().length){
+        user_max = Number(user_max_e.value);
+    } else {
+        user_max = Number(user_max_e.placeholder);
+    }
+
+    if(a_factor_e.value.trim().length) {
+        a_factor = Number(a_factor_e.value);
+    } else {
+        a_factor = Number(a_factor_e.placeholder);
+    }
+
+    obj = {	"user_max": user_max,"assignment_factor": a_factor}
+
+    try {
+        const res = await fetch(`${global_api}/update-results/${id}/${passphrase}`,{
+                method: 'PATCH',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(obj)
+            }
+        );
+        const data = await res.json();
+
+        if (!res.ok) {
+            resultbox.innerHTML = ''
+            resultbox.classList.add('invisible')
+
+            warningbox.innerHTML = `
+                <p>The server returned an error:</p>
+                <p><strong>Error ${res.status}:</strong> ${data}</p> 
+            `
+            warningbox.classList.remove('invisible')
+            return;
+        }
+        else {
+            console.log(data);
+            draw_results(data);
+        }
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+async function get_results() {
+    const warningbox = document.getElementById('warningbox');
+    const resultbox = document.getElementById('resultbox');
+
+    const id = new URL(window.location.href).searchParams.get('id');
+    const passphrase = document.getElementById('passphrase').value;
+
+    try {
+        const res = await fetch(`${global_api}/get-exchange/${id}/${passphrase}`,{
+                method: 'GET'
+            }
+        );
+        const data = await res.json();
+
+        if (!res.ok) {
+            resultbox.innerHTML = ''
+            resultbox.classList.add('invisible')
+
+            warningbox.innerHTML = `
+                <p>The server returned an error:</p>
+                <p><strong>Error ${res.status}:</strong> ${data}</p> 
+            `
+            warningbox.classList.remove('invisible')
+            return;
+        }
+        else {
+            console.log(data);
+            draw_results(data);
+        }
+    } catch (error) {
+        console.log(error);
+    }
+}
+
 async function transition(stage) {
     const id = new URL(window.location.href).searchParams.get('id');
     const passphrase = document.getElementById('passphrase').value;
