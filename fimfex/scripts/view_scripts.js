@@ -285,7 +285,28 @@ async function goto_voting_stage(id, passphrase) {
 }
 
 async function goto_selections_stage(id, passphrase) {
+    try{
+        const res = await fetch(`http://127.0.0.1:7669/change-stage/${id}/${passphrase}?stage=Selection`,{
+            method: 'PATCH'
+        });
+        const data = await res.text();
 
+        if (!res.ok) {
+            warningbox.innerHTML = `
+                <p>The server returned an error:</p>
+                <p><strong>Error ${res.status}:</strong> ${data}</p> 
+            `
+            warningbox.classList.remove('invisible')
+            return;
+        }
+        else {
+            await get_exchange();
+        }
+    } catch (error) {
+        console.log(error);
+    }
+
+    console.log('Go to selection!!!')
 }
 
 async function goto_frozen_stage(id, passphrase) {
