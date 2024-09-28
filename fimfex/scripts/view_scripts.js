@@ -396,7 +396,31 @@ function draw_voting_submissions(data) {
 }
 
 function build_selections_view(data) {
-
+    const viewbox = document.getElementById('viewbox');
+    viewbox.innerHTML = `
+        <h1>${data.title}</h1>
+        <p>This exchange is ready to generate results.</p>
+        <p>You can experiment with different settings before publishing.</p>
+        <div id="resultsbox"></div>
+        <div>
+            <br>
+            <p>Admin controls:</p>
+            
+            <label for="user_max">Max submissions per user:</label>
+            <input type="number" id="user_max" name="user_max" placeholder="2">
+            <br>
+            <label for="a_factor">Assignment factor:</label>
+            <input type="number" id="a_factor" name="a_factor" placeholder="0.5">
+            <br>
+            <label for="passphrase">passphrase:</label>
+            <input type="password" id="passphrase" name="passphrase">
+            <br>
+            <button id="generate_results" onclick="generate_results()">Generate Results</button>
+            <br>
+            <button id="goto_voting" onclick="transition('Voting')">Go to Voting stage</button>
+            <button id="goto_frozen" onclick="transition('Frozen')">Publish (this is PERMANENT!)</button>
+        </div>
+    `
 }
 
 function build_frozen_view(data) {
