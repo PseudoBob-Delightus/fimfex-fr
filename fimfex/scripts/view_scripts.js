@@ -147,6 +147,79 @@ async function get_voting_submissions() {
     }
 }
 
+async function submit_votes() {
+    const id = new URL(window.location.href).searchParams.get('id');
+    const viewbox = document.getElementById('viewbox');
+    const warningbox = document.getElementById('warningbox');
+    const resultbox = document.getElementById('resultbox');
+
+    try {
+        const username = document.getElementById("username").innerText;
+        const submission_voting_box = document.getElementById("submission_voting_box");
+        const vote_list = submission_voting_box.getElementsByTagName("ul")[0];
+
+        var obj = {};
+        obj['name'] = username;
+        obj['votes'] = [];
+
+        [...vote_list.children].forEach(submission => {
+            const entry_arr = [];
+
+            [...submission.getElementsByTagName("span")].forEach(story => {
+                entry_arr.push(story.innerText);
+            });
+
+            const priority = Number(submission.getElementsByTagName("input")[0].value);
+
+            obj.votes.push({priority:priority, entry:{stories:entry_arr}})
+        });
+
+        console.log(`POSTing this: ${JSON.stringify(obj)}`)
+        console.log(obj)
+
+
+        const res = await fetch(`http://127.0.0.1:7669/cast-votes/${id}`,{
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(obj)
+            }
+        );
+        const data = res;
+
+        if (!res.ok) {
+            viewbox.innerHTML = ''
+            resultbox.innerHTML = ''
+            resultbox.classList.add('invisible')
+
+            warningbox.innerHTML = `
+                <p>The server returned an error:</p>
+                <p><strong>Error ${res.status}:</strong> ${res.body}</p> 
+            `
+            warningbox.classList.remove('invisible')
+            return;
+        }
+        else {
+            console.log(data);
+            
+            resultbox.innerHTML = `
+                <p>Your ${obj.votes.length} votes have been added.</p>
+                <p>Check back later (according to the exchange's owner) for the results stage.</p>
+            `
+            resultbox.classList.add('invisible')
+        }
+    } catch (error) {
+        viewbox.innerHTML = ''
+        resultbox.innerHTML = ''
+        resultbox.classList.add('invisible')
+        
+        warningbox.innerHTML = '<p>There was an uncaught error. Consult the console, and notify site authors.</p>'
+        warningbox.classList.remove('invisible')
+        console.log(error);
+    }    
+}
+
 async function transition(stage) {
     const id = new URL(window.location.href).searchParams.get('id');
     const passphrase = document.getElementById('passphrase').value;
@@ -316,7 +389,8 @@ function draw_voting_submissions(data) {
     });
 
     string +=
-        '\n</ul>';
+        `\n</ul>
+        <button id="submit_votes" onclick="submit_votes()">Submit votes</button>`;
     
     box.innerHTML = string;
 }
