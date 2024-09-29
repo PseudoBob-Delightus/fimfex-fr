@@ -1,11 +1,43 @@
-async function get_exchange() {
+import { bk } from "/fimfex/data/bk.js"
+
+// HORRIBLE HORRIBLE HORRIBLE!!!
+// TODO: REPLACE WITH EVENTLISTENERS!!!
+window.get_exchange = get_exchange
+window.submit_stories = submit_stories
+window.get_voting_submissions = get_voting_submissions
+window.submit_votes = submit_votes
+window.generate_results = generate_results
+window.get_results = get_results
+window.transition = transition
+window.goto_submission_stage = goto_submission_stage
+window.goto_voting_stage = goto_voting_stage
+window.goto_selections_stage = goto_selections_stage
+window.goto_frozen_stage = goto_frozen_stage
+window.build_view = build_view
+window.build_submission_view = build_submission_view
+window.build_voting_view = build_voting_view
+window.draw_voting_submissions = draw_voting_submissions
+window.build_selections_view = build_selections_view
+window.draw_results = draw_results
+window.build_frozen_view = build_frozen_view
+
+
+document.addEventListener("DOMContentLoaded", function() {
+    get_exchange();
+});
+
+const global_api = `${bk.scheme}://${bk.domain}:${bk.port}`;
+
+export async function get_exchange() {
     const id = new URL(window.location.href).searchParams.get('id');
     const viewbox = document.getElementById('viewbox');
     const warningbox = document.getElementById('warningbox');
     const resultbox = document.getElementById('resultbox');
 
+    console.log(`GETing from ${global_api}/get-exchange/${id}`)
+
     try {
-        const res = await fetch(`http://127.0.0.1:7669/get-exchange/${id}`,{
+        const res = await fetch(`${global_api}/get-exchange/${id}`,{
                 method: 'GET'
             }
         );
@@ -38,7 +70,7 @@ async function get_exchange() {
     }
 }
 
-async function submit_stories() {
+export async function submit_stories() {
     const id = new URL(window.location.href).searchParams.get('id');
     const viewbox = document.getElementById('viewbox');
     const warningbox = document.getElementById('warningbox');
@@ -70,7 +102,7 @@ async function submit_stories() {
         console.log(`POSTing this: ${JSON.stringify(obj)}`)
 
 
-        const res = await fetch(`http://127.0.0.1:7669/add-stories/${id}`,{
+        const res = await fetch(`${global_api}/add-stories/${id}`,{
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -113,7 +145,7 @@ async function submit_stories() {
     }
 }
 
-async function get_voting_submissions() {
+export async function get_voting_submissions() {
     const id = new URL(window.location.href).searchParams.get('id');
     const username = document.getElementById('username').value;
 
@@ -121,7 +153,7 @@ async function get_voting_submissions() {
     const resultbox = document.getElementById('resultbox');
 
     try {
-        const res = await fetch(`http://127.0.0.1:7669/get-exchange/${id}?name=${username}`,{
+        const res = await fetch(`${global_api}/get-exchange/${id}?name=${username}`,{
                 method: 'GET'
             }
         );
@@ -147,7 +179,7 @@ async function get_voting_submissions() {
     }
 }
 
-async function submit_votes() {
+export async function submit_votes() {
     const id = new URL(window.location.href).searchParams.get('id');
     const viewbox = document.getElementById('viewbox');
     const warningbox = document.getElementById('warningbox');
@@ -178,7 +210,7 @@ async function submit_votes() {
         console.log(obj)
 
 
-        const res = await fetch(`http://127.0.0.1:7669/cast-votes/${id}`,{
+        const res = await fetch(`${global_api}/cast-votes/${id}`,{
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -220,7 +252,7 @@ async function submit_votes() {
     }    
 }
 
-async function generate_results() {
+export async function generate_results() {
     const warningbox = document.getElementById('warningbox');
     const resultbox = document.getElementById('resultbox');
 
@@ -277,7 +309,7 @@ async function generate_results() {
     }
 }
 
-async function get_results() {
+export async function get_results() {
     const warningbox = document.getElementById('warningbox');
     const resultbox = document.getElementById('resultbox');
 
@@ -311,7 +343,7 @@ async function get_results() {
     }
 }
 
-async function transition(stage) {
+export async function transition(stage) {
     const id = new URL(window.location.href).searchParams.get('id');
     const passphrase = document.getElementById('passphrase').value;
 
@@ -324,9 +356,9 @@ async function transition(stage) {
     }
 }
 
-async function goto_submission_stage(id, passphrase) {
+export async function goto_submission_stage(id, passphrase) {
     try{
-        const res = await fetch(`http://127.0.0.1:7669/change-stage/${id}/${passphrase}?stage=Submission`,{
+        const res = await fetch(`${global_api}/change-stage/${id}/${passphrase}?stage=Submission`,{
             method: 'PATCH'
         });
         const data = await res.text();
@@ -349,9 +381,9 @@ async function goto_submission_stage(id, passphrase) {
     console.log('Go to submission!!!')
 }
 
-async function goto_voting_stage(id, passphrase) {
+export async function goto_voting_stage(id, passphrase) {
     try{
-        const res = await fetch(`http://127.0.0.1:7669/change-stage/${id}/${passphrase}?stage=Voting`,{
+        const res = await fetch(`${global_api}/change-stage/${id}/${passphrase}?stage=Voting`,{
             method: 'PATCH'
         });
         const data = await res.text();
@@ -375,9 +407,9 @@ async function goto_voting_stage(id, passphrase) {
 
 }
 
-async function goto_selections_stage(id, passphrase) {
+export async function goto_selections_stage(id, passphrase) {
     try{
-        const res = await fetch(`http://127.0.0.1:7669/change-stage/${id}/${passphrase}?stage=Selection`,{
+        const res = await fetch(`${global_api}/change-stage/${id}/${passphrase}?stage=Selection`,{
             method: 'PATCH'
         });
         const data = await res.text();
@@ -400,9 +432,9 @@ async function goto_selections_stage(id, passphrase) {
     console.log('Go to selection!!!')
 }
 
-async function goto_frozen_stage(id, passphrase) {
+export async function goto_frozen_stage(id, passphrase) {
     try{
-        const res = await fetch(`http://127.0.0.1:7669/change-stage/${id}/${passphrase}?stage=Frozen`,{
+        const res = await fetch(`${global_api}/change-stage/${id}/${passphrase}?stage=Frozen`,{
             method: 'PATCH'
         });
         const data = await res.text();
@@ -481,7 +513,7 @@ function build_submission_view(data) {
 
             <br>
 
-            <button id="submit_stories" onclick="submit_stories()">Submit Stories</button>
+            <button id="submit_stories" onclick="window.submit_stories()">Submit Stories</button>
         </div>
         <div>
             <br>
@@ -489,7 +521,7 @@ function build_submission_view(data) {
             <label for="passphrase">passphrase:</label>
             <input type="password" id="passphrase" name="passphrase">
             <br>
-            <button id="goto_voting" onclick="transition('Voting')">Go to Voting stage</button>
+            <button id="goto_voting" onclick="window.transition('Voting')">Go to Voting stage</button>
         </div>
     `
 }
@@ -505,7 +537,7 @@ function build_voting_view(data) {
                 <p>Submit your username before casting votes.<p>
                 <label for="username">username:</label>
                 <input type="text" id="username" name="username">
-                <button id="get_voting_submissions" onclick="get_voting_submissions()">Submit</button>
+                <button id="get_voting_submissions" onclick="window.get_voting_submissions()">Submit</button>
             </div>
         </div>
         <div>
@@ -514,8 +546,8 @@ function build_voting_view(data) {
             <label for="passphrase">passphrase:</label>
             <input type="password" id="passphrase" name="passphrase">
             <br>
-            <button id="goto_submission" onclick="transition('Submission')">Go to Submission stage</button>
-            <button id="goto_selection" onclick="transition('Selections')">Go to Results stage</button>
+            <button id="goto_submission" onclick="window.transition('Submission')">Go to Submission stage</button>
+            <button id="goto_selection" onclick="window.transition('Selections')">Go to Results stage</button>
         </div>
     `
 }
@@ -544,7 +576,7 @@ function draw_voting_submissions(data) {
 
     string +=
         `\n</ul>
-        <button id="submit_votes" onclick="submit_votes()">Submit votes</button>`;
+        <button id="submit_votes" onclick="window.submit_votes()">Submit votes</button>`;
     
     box.innerHTML = string;
 }
@@ -570,11 +602,11 @@ function build_selections_view(data) {
             <label for="passphrase">passphrase:</label>
             <input type="password" id="passphrase" name="passphrase">
             <br>
-            <button id="view_results" onclick="get_results()">View Current Results</button>
-            <button id="generate_results" onclick="generate_results()">Generate New Results</button>
+            <button id="view_results" onclick="window.get_results()">View Current Results</button>
+            <button id="generate_results" onclick="window.generate_results()">Generate New Results</button>
             <br>
-            <button id="goto_voting" onclick="transition('Voting')">Go to Voting stage</button>
-            <button id="goto_frozen" onclick="transition('Frozen')">Publish (this is PERMANENT!)</button>
+            <button id="goto_voting" onclick="window.transition('Voting')">Go to Voting stage</button>
+            <button id="goto_frozen" onclick="window.transition('Frozen')">Publish (this is PERMANENT!)</button>
         </div>
     `;
 }
