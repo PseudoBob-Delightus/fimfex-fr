@@ -1,4 +1,4 @@
-import { bk } from "/data/bk.js"
+import { api } from "/data/bk.js"
 
 // HORRIBLE HORRIBLE HORRIBLE!!!
 // TODO: REPLACE WITH EVENTLISTENERS!!!
@@ -26,18 +26,16 @@ document.addEventListener("DOMContentLoaded", function() {
     get_exchange();
 });
 
-const global_api = `${bk.scheme}://${bk.domain}`;
-
 export async function get_exchange() {
     const id = new URL(window.location.href).searchParams.get('id');
     const viewbox = document.getElementById('viewbox');
     const warningbox = document.getElementById('warningbox');
     const resultbox = document.getElementById('resultbox');
 
-    console.log(`GETing from ${global_api}/get-exchange/${id}`)
+    console.log(`GETing from ${api}/get-exchange/${id}`)
 
     try {
-        const res = await fetch(`${global_api}/get-exchange/${id}`,{
+        const res = await fetch(`${api}/get-exchange/${id}`,{
                 method: 'GET'
             }
         );
@@ -102,7 +100,7 @@ export async function submit_stories() {
         console.log(`POSTing this: ${JSON.stringify(obj)}`)
 
 
-        const res = await fetch(`${global_api}/add-stories/${id}`,{
+        const res = await fetch(`${api}/add-stories/${id}`,{
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -153,7 +151,7 @@ export async function get_voting_submissions() {
     const resultbox = document.getElementById('resultbox');
 
     try {
-        const res = await fetch(`${global_api}/get-exchange/${id}?name=${username}`,{
+        const res = await fetch(`${api}/get-exchange/${id}?name=${username}`,{
                 method: 'GET'
             }
         );
@@ -210,7 +208,7 @@ export async function submit_votes() {
         console.log(obj)
 
 
-        const res = await fetch(`${global_api}/cast-votes/${id}`,{
+        const res = await fetch(`${api}/cast-votes/${id}`,{
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -279,7 +277,7 @@ export async function generate_results() {
     const obj = {	"user_max": user_max,"assignment_factor": a_factor}
 
     try {
-        const res = await fetch(`${global_api}/update-results/${id}/${passphrase}`,{
+        const res = await fetch(`${api}/update-results/${id}/${passphrase}`,{
                 method: 'PATCH',
                 headers: {
                     'Content-Type': 'application/json'
@@ -317,7 +315,7 @@ export async function get_results() {
     const passphrase = document.getElementById('passphrase').value;
 
     try {
-        const res = await fetch(`${global_api}/get-exchange/${id}/${passphrase}`,{
+        const res = await fetch(`${api}/get-exchange/${id}/${passphrase}`,{
                 method: 'GET'
             }
         );
@@ -358,7 +356,7 @@ export async function transition(stage) {
 
 export async function goto_submission_stage(id, passphrase) {
     try{
-        const res = await fetch(`${global_api}/change-stage/${id}/${passphrase}?stage=Submission`,{
+        const res = await fetch(`${api}/change-stage/${id}/${passphrase}?stage=Submission`,{
             method: 'PATCH'
         });
         const data = await res.text();
@@ -383,7 +381,7 @@ export async function goto_submission_stage(id, passphrase) {
 
 export async function goto_voting_stage(id, passphrase) {
     try{
-        const res = await fetch(`${global_api}/change-stage/${id}/${passphrase}?stage=Voting`,{
+        const res = await fetch(`${api}/change-stage/${id}/${passphrase}?stage=Voting`,{
             method: 'PATCH'
         });
         const data = await res.text();
@@ -409,7 +407,7 @@ export async function goto_voting_stage(id, passphrase) {
 
 export async function goto_selections_stage(id, passphrase) {
     try{
-        const res = await fetch(`${global_api}/change-stage/${id}/${passphrase}?stage=Selection`,{
+        const res = await fetch(`${api}/change-stage/${id}/${passphrase}?stage=Selection`,{
             method: 'PATCH'
         });
         const data = await res.text();
@@ -434,7 +432,7 @@ export async function goto_selections_stage(id, passphrase) {
 
 export async function goto_frozen_stage(id, passphrase) {
     try{
-        const res = await fetch(`${global_api}/change-stage/${id}/${passphrase}?stage=Frozen`,{
+        const res = await fetch(`${api}/change-stage/${id}/${passphrase}?stage=Frozen`,{
             method: 'PATCH'
         });
         const data = await res.text();

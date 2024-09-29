@@ -1,6 +1,4 @@
-import { bk } from "/data/bk.js"
-
-const global_api = `${bk.scheme}://${bk.domain}`;
+import { api } from "/data/bk.js"
 
 // HORRIBLE HORRIBLE HORRIBLE!!!
 // TODO: REPLACE WITH EVENTLISTENERS!!!
@@ -11,7 +9,7 @@ export async function submit_exchange() {
     const warningbox = document.getElementById('warningbox');
     const resultbox = document.getElementById('resultbox');
     try {
-        const res = await fetch(`${global_api}/create-exchange?title=${ex_title}`,{
+        const res = await fetch(`${api}/create-exchange?title=${ex_title}`,{
             method: 'POST',
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded'

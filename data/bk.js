@@ -1,4 +1,1 @@
-export const bk = {
-    scheme: "https",
-    domain: "api.fimfex.silkrose.dev"
-}
+export const api = "https://api.fimfex.silkrose.dev";
