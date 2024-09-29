@@ -1,4 +1,4 @@
-import { bk } from "/fimfex/data/bk.js"
+import { bk } from "/data/bk.js"
 
 // HORRIBLE HORRIBLE HORRIBLE!!!
 // TODO: REPLACE WITH EVENTLISTENERS!!!
