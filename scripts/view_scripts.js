@@ -646,4 +646,5 @@ function build_frozen_view(data) {
         <div id="resultsbox">
         </div>
     `;
+    draw_results(data);
 }
