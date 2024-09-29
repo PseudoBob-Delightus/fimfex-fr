@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Fimfex Story Exchange</title>
-    <script type="text/javascript" src="scripts/index_scripts.js"></script>
+    <script type="module" src="scripts/index_scripts.js"></script>
 </head>
 <body>
     <h1>Welcome to Fimfex!</h1>
@@ -17,7 +17,7 @@
     <div id="new_exchange">
         <label for="ex_title">Title:</label>
         <input type="text" id="ex_title" name="ex_title" minlength="3" maxlength="30">
-        <button id="create_new_exchange" onclick="submit_exchange()">Create</button>
+        <button id="create_new_exchange" onclick="window.submit_exchange()">Create</button>
     </div>
 
 </body>

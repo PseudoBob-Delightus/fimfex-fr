@@ -1,9 +1,17 @@
-async function submit_exchange() {
+import { bk } from "/fimfex/data/bk.js"
+
+const global_api = `${bk.scheme}://${bk.domain}:${bk.port}`;
+
+// HORRIBLE HORRIBLE HORRIBLE!!!
+// TODO: REPLACE WITH EVENTLISTENERS!!!
+window.submit_exchange = submit_exchange
+
+export async function submit_exchange() {
     const ex_title = document.getElementById('ex_title').value;
     const warningbox = document.getElementById('warningbox');
     const resultbox = document.getElementById('resultbox');
     try {
-        const res = await fetch(`http://fimfex.ddns.net:7669/create-exchange?title=${ex_title}`,{
+        const res = await fetch(`${global_api}/create-exchange?title=${ex_title}`,{
             method: 'POST',
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded'
