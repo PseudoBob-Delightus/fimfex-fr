@@ -1,5 +1,5 @@
 export const bk = {
     scheme: "http",
-    domain: "127.0.0.1",
+    domain: "api.fimfex.silkrose.dev",
     port: "7669"
 }
