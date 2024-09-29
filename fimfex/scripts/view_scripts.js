@@ -26,7 +26,7 @@ document.addEventListener("DOMContentLoaded", function() {
     get_exchange();
 });
 
-const global_api = `${bk.scheme}://${bk.domain}:${bk.port}`;
+const global_api = `${bk.scheme}://${bk.domain}`;
 
 export async function get_exchange() {
     const id = new URL(window.location.href).searchParams.get('id');

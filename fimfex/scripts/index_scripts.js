@@ -1,6 +1,6 @@
 import { bk } from "/fimfex/data/bk.js"
 
-const global_api = `${bk.scheme}://${bk.domain}:${bk.port}`;
+const global_api = `${bk.scheme}://${bk.domain}`;
 
 // HORRIBLE HORRIBLE HORRIBLE!!!
 // TODO: REPLACE WITH EVENTLISTENERS!!!
