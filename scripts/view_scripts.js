@@ -276,7 +276,7 @@ export async function generate_results() {
         a_factor = Number(a_factor_e.placeholder);
     }
 
-    obj = {	"user_max": user_max,"assignment_factor": a_factor}
+    const obj = {	"user_max": user_max,"assignment_factor": a_factor}
 
     try {
         const res = await fetch(`${global_api}/update-results/${id}/${passphrase}`,{
@@ -632,7 +632,7 @@ function draw_results(data) {
         string += `</ul></li>`
     });
 
-    string += `</ul>`
+    string += `</ul>`;
 
     box.innerHTML = string;
 }
@@ -645,5 +645,5 @@ function build_frozen_view(data) {
         <p>Results below:</p>
         <div id="resultsbox">
         </div>
-    `
+    `;
 }
